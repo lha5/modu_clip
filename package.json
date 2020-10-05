@@ -18,11 +18,13 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "fluent-ffmpeg": "^2.1.2",
     "http-proxy-middleware": "^1.0.5",
     "jsonwebtoken": "^8.5.1",
     "mogodb": "0.0.1-security",
     "moment": "^2.29.0",
     "mongoose": "^5.10.7",
+    "multer": "^1.4.2",
     "session-file-store": "^1.4.0"
   },
   "devDependencies": {

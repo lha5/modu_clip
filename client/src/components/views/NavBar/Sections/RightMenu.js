@@ -31,6 +31,7 @@ function RightMenu(props) {
     } else {
         return (
             <Box direction="row" gap="xsmall" pad="small">
+                <Button size="small" href="/video/upload" label="Upload" />
                 <Button size="small" onClick={logoutHandler} label="Sign Out" />
             </Box>
         );
