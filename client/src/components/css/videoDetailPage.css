@@ -1,0 +1,14 @@
+#video_title {
+    font-size: larger;
+}
+
+#sideThumbnail {
+    width: 150px;
+    height: auto;
+}
+
+#sideVideoInfo {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

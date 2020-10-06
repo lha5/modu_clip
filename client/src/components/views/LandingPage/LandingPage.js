@@ -28,9 +28,9 @@ function LandingPage() {
         let seconds = Math.floor((video.duration - minutes * 60));
 
         return (
-            <div className="clips">
-                <div id="imgContainer" key={video._id}>
-                    <a href="/">
+            <div className="clips" key={video._id}>
+                <div id="imgContainer">
+                    <a href={`/video/${video._id}`}>
                         <img alt={video.title} src={`http://localhost:5000/${video.thumbnail}`} />
                         <span id="runningTime">{minutes} : {seconds}</span>
                     </a>
