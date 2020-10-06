@@ -1,0 +1,61 @@
+.clips {
+    width: fit-content;
+}
+
+#imgContainer {
+    width: fit-content;
+    position: relative;
+}
+
+#imgContainer img {
+    vertical-align: bottom;
+    min-width: 230px;
+    max-width: 100%;
+    height: auto;
+}
+
+#runningTime {
+    background: rgba(0, 0, 0, 0.75);
+    border-radius: 2px;
+    color: #ffffff;
+    padding: 0 4px;
+    font-weight: normal;
+    font-size: small;
+    position: absolute;
+    bottom: 0.4em;
+    right: 0.4em;
+}
+
+.videoInfo {
+    align-content: center;
+    display: grid;
+    grid-template-columns: 22% 78%;
+}
+
+.avatar {
+    text-align: center;
+    padding-top: 10px;
+}
+
+.avatar img {
+    border-radius: 50%;
+    width: 27px;
+    vertical-align: bottom;
+}
+
+.information {
+    display: grid;
+    row-gap: 3px;
+}
+
+.information div:nth-child(1) {
+    margin-top: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.info_style {
+    font-size: 16px;
+    color: #666666;
+}

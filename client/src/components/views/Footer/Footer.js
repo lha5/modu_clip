@@ -33,7 +33,7 @@ function Footer(props) {
                     <Box direction="row">
                         <CirclePlay />
                         &nbsp;
-                        <Text size="small" weight={700}>
+                        <Text size="small" weight="bold">
                             모두의 클립 Modu Clip
                         </Text>
                     </Box>

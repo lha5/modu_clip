@@ -15,11 +15,12 @@ import {
 } from 'grommet';
 import Dropzone from 'react-dropzone';
 import {Upload} from 'grommet-icons';
-import {deepMerge} from "grommet/utils";
-import axios from 'axios';
-import {useSelector} from "react-redux";
+import {deepMerge} from 'grommet/utils';
 
-import {VIDEO_SERVER} from "../../config";
+import axios from 'axios';
+import {useSelector} from 'react-redux';
+
+import {VIDEO_SERVER} from '../../config';
 
 const customFormFieldTheme = {
     global: {
@@ -96,7 +97,7 @@ function VideoUploadPage(props) {
 
         formData.append("file", files[0]);
 
-        axios.post('/api/video/uploadfiles', formData, config)
+        axios.post(`${VIDEO_SERVER}/uploadfiles`, formData, config)
             .then(response => {
                 if (response.data.success) {
                     let variable = {
@@ -105,7 +106,7 @@ function VideoUploadPage(props) {
                     };
                     setFilePath(response.data.url);
 
-                    axios.post('/api/video/thumbnail', variable)
+                    axios.post(`${VIDEO_SERVER}/thumbnail`, variable)
                         .then(response => {
                             if (response.data.success) {
                                 console.log('썸네일 response data', response.data);

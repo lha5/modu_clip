@@ -3,7 +3,8 @@ import axios from 'axios';
 import { USER_SERVER } from '../../../config';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Box, Button } from 'grommet';
+import {Box, Button} from 'grommet';
+import {Upload} from 'grommet-icons';
 
 function RightMenu(props) {
     const user = useSelector(state => state.user);
@@ -30,8 +31,8 @@ function RightMenu(props) {
         );
     } else {
         return (
-            <Box direction="row" gap="xsmall" pad="small">
-                <Button size="small" href="/video/upload" label="Upload" />
+            <Box direction="row" gap="small" pad="small">
+                <Button size="small" href="/video/upload" icon={<Upload />} hoverIndicator />
                 <Button size="small" onClick={logoutHandler} label="Sign Out" />
             </Box>
         );

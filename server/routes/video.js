@@ -86,13 +86,23 @@ router.post('/thumbnail', (req, res) => {
 });
 
 router.post('/uploadVideo', (req, res) => {
-    // 비디오 정보들을 저장한다.
+    // 영상 정보들을 저장한다.
     const video = new Video(req.body);
 
     video.save((err, doc) => {
         if (err) {return res.json({success: false, err})}
         res.status(200).json({success: true});
     });
+});
+
+router.get('/getVideos', (req, res) => {
+    // 영상을 DB에서 클라이언트로 보낸다.
+    Video.find()
+        .populate('writer')
+        .exec((err, videos) => {
+            if (err) {return res.status(400).send(err);}
+            res.status(200).json({success: true, videos});
+        });
 });
 
 module.exports = router;

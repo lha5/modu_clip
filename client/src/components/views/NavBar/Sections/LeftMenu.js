@@ -3,8 +3,8 @@ import {Box} from 'grommet';
 
 function LeftMenu(props) {
     return (
-        <Box border>
-            메뉴
+        <Box justify="center">
+            왼쪽 메뉴
         </Box>
     );
 }
