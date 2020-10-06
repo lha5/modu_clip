@@ -1,10 +1,10 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import {Box, Button, Form, FormField, grommet, Grommet, Heading, MaskedInput} from 'grommet';
+import {deepMerge} from "grommet/utils";
 import moment from 'moment';
 
 import {signUpUser} from '../../../_actions/user_actions';
-import {deepMerge} from "grommet/utils";
 
 function SignUpPage(props) {
 
@@ -51,7 +51,6 @@ function SignUpPage(props) {
                                     name: value.name,
                                     email: value.email,
                                     password: value.password,
-                                    lastname: '',
                                     image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
                                 };
 

@@ -15,7 +15,7 @@ export function signUpUser(dataToSubmit) {
 
 export function loginUser(dataToSubmit) {
     const request = axios
-        .post(`${USER_SERVER}/login`, dataToSubmit, {withCredentials: true})
+        .post(`${USER_SERVER}/login`, dataToSubmit)
         .then(response => response.data);
 
     return {

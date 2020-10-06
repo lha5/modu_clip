@@ -4,7 +4,7 @@ const router = express.Router();
 const multer = require('multer');
 let ffmpeg = require('fluent-ffmpeg');
 
-// const {Video} = require('../models/Video');
+const {Video} = require('../models/Video');
 const {auth} = require('../middleware/auth');
 
 // ------------------------
@@ -14,7 +14,7 @@ const {auth} = require('../middleware/auth');
 // STOARGE MULTER CONFIG
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/');
+        cb(null, 'uploads/video_clip/');
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}_${file.originalname}`);
@@ -33,6 +33,8 @@ let storage = multer.diskStorage({
 let upload = multer({storage: storage}).single('file');
 
 router.post('/uploadfiles', (req, res) => {
+    // 영상을 서버에 저장
+
     upload(req, res, err => {
         if (err) {return res.json({success: false, err});}
         return res.json({
@@ -40,6 +42,56 @@ router.post('/uploadfiles', (req, res) => {
             url: res.req.file.path,
             fileName: res.req.file.filename
         });
+    });
+});
+
+router.post('/thumbnail', (req, res) => {
+    // 썸네일 생성과 러닝 타임도 가져오기
+
+    let filePath = '';
+    let fileDuration = '';
+
+    // 영상 정보 가져오기
+    ffmpeg.ffprobe(req.body.url, function (err, metadata) {
+        console.log('metadata', metadata);
+        console.log('metadata format duration', metadata.format.duration);
+        fileDuration = metadata.format.duration;
+    });
+
+    // 썸네일 생성
+    ffmpeg(req.body.url)
+        .on('filenames', function (filenames) {
+            console.log('will generate' + filenames.join(', '));
+            console.log(filenames);
+            filePath = 'uploads/thumbnails/' + filenames[0];
+        })
+        .on('end', function () {
+            console.log('screenshots taken');
+            return res.json({
+                success: true,
+                url: filePath,
+                fileDuration: fileDuration
+            });
+        })
+        .on('error', function (err) {
+            console.log('ffmpeg error', err);
+            return res.json({success: false, err});
+        })
+        .screenshots({
+            count: 3,
+            folder: 'uploads/thumbnails',
+            size: '320x240',
+            filename: 'thumbnail-%b.png'
+        });
+});
+
+router.post('/uploadVideo', (req, res) => {
+    // 비디오 정보들을 저장한다.
+    const video = new Video(req.body);
+
+    video.save((err, doc) => {
+        if (err) {return res.json({success: false, err})}
+        res.status(200).json({success: true});
     });
 });
 
