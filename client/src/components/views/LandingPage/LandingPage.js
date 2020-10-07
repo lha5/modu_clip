@@ -6,7 +6,7 @@ import {Box, Grommet, Heading} from 'grommet';
 
 import {VIDEO_SERVER} from '../../config';
 
-import {customBreakpoints, rows, Responsive} from '../ResponsiveGridConfig';
+import {customBreakpoints, rows, Responsive} from '../../responsiveConfig/ResponsiveGridConfig';
 import '../../css/landingPage.css';
 
 function LandingPage() {

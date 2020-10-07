@@ -25,15 +25,19 @@ function SideVideo(props) {
 
         return (
             <Box direction="row" key={index} gap="xsmall">
-                <Box justify="center" margin="xsmall">
-                    <img id="sideThumbnail" src={`http://localhost:5000/${video.thumbnail}`} alt={video.title} />
-                </Box>
-                <Box id="sideVideoInfo" direction="column" pad="small">
-                    <span>{video.title}</span>
-                    <span>{video.writer.name}</span>
-                    <span>조회수 {video.views} · {moment(video.createdAt).startOf('hour').fromNow()}</span>
-                    <span>{minutes} : {seconds}</span>
-                </Box>
+                    <Box justify="center" margin="xsmall">
+                        <a href={`/video/${video._id}`}>
+                            <img id="sideThumbnail" src={`http://localhost:5000/${video.thumbnail}`} alt={video.title} />
+                        </a>
+                    </Box>
+                    <Box id="sideVideoInfo" pad="small">
+                        <a href={`/video/${video._id}`}>
+                            <span id="video_ttl">{video.title}</span><br />
+                            <span>{video.writer.name}</span><br />
+                            <span>조회수 {video.views} · {moment(video.createdAt).startOf('hour').fromNow()}</span><br />
+                            <span>{minutes} : {seconds}</span><br />
+                        </a>
+                    </Box>
             </Box>
         );
     });

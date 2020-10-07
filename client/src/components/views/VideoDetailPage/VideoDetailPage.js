@@ -2,12 +2,13 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import moment from 'moment';
 
-import {Avatar, Box, Button, Grommet, Text, Video} from 'grommet';
+import {Avatar, Box, Button, Grommet, Video} from 'grommet';
 import {Like, Dislike} from 'grommet-icons';
 
-import {Responsive, customBreakpoints} from '../ResponsiveGridConfig';
+import {Responsive, customBreakpoints} from '../../responsiveConfig/ResponsiveGridConfig';
 import {VIDEO_SERVER} from '../../config';
 import SideVideo from "./Section/SideVideo";
+import Subscribe from './Section/Subscribe';
 
 import '../../css/videoDetailPage.css';
 
@@ -65,7 +66,7 @@ function VideoDetailPage(props) {
                                 <Box direction="row" justify="center" gap="medium">
                                     <Button icon={<Like />} label="0" plain />
                                     <Button icon={<Dislike />} label="0" plain />
-                                    <Button label="구독" primary />
+                                    <Subscribe userTo={video.writer.userTo} userFrom={localStorage.getItem('userId')} />
                                 </Box>
                             </Box>
                             <Box pad="small" direction="row" gap="medium">

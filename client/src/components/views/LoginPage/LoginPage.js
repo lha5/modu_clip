@@ -45,7 +45,7 @@ function LoginPage(props) {
                                 dispatch(loginUser(dataToSubmit))
                                     .then(response => {
                                         if (response.payload.loginSuccess === true) {
-                                            console.log('로그인', response.payload);
+                                            localStorage.setItem('userId', response.payload.userId);
                                             props.history.push('/');
                                         } else {
                                             alert('이메일이나 비밀번호를 다시 확인해주세요.');

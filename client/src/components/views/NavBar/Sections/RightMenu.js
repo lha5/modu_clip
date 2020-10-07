@@ -14,6 +14,7 @@ function RightMenu(props) {
             .get(`${USER_SERVER}/logout`)
             .then(response => {
                 if (response.status === 200) {
+                    window.localStorage.removeItem('userId');
                     props.history.push('/');
                 }
                 else {
