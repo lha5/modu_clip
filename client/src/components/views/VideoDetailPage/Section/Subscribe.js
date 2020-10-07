@@ -45,7 +45,7 @@ function Subscribe(props) {
 
     useEffect(() => {
 
-        let variable = {userTo: props.userTo};
+        const variable = {userTo: props.userTo, userFrom: props.userFrom};
 
         axios
             .post(`${SUBSCRIBE_SERVER}/subscribeNumber`, variable)

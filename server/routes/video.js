@@ -5,6 +5,7 @@ const multer = require('multer');
 let ffmpeg = require('fluent-ffmpeg');
 
 const {Video} = require('../models/Video');
+const {Subscriber} = require('../models/Subscriber');
 const {auth} = require('../middleware/auth');
 
 // ------------------------
@@ -106,11 +107,34 @@ router.get('/getVideos', (req, res) => {
 });
 
 router.post('/getVideo', (req, res) => {
-    Video.findOne({"_id": req.body.videoId})
+    Video.findOne({'_id': req.body.videoId})
         .populate('writer')
         .exec((err, video) => {
             if (err) {return res.status(400).send(err);}
             return res.status(200).json({success: true, video});
+        });
+});
+
+router.post('/getSubscriptionVideos', (req, res) => {
+    // 자신의 아이디를 가지고 구독하는 사람들을 찾는다.
+    Subscriber
+        .find({'userFrom': req.body.userFrom})
+        .exec((err, subscriberInfo) => {
+            if (err) {return res.status(400).send(err);}
+            let subscribedUser = [];
+
+            subscriberInfo.map((subscriber, i) => {
+                subscribedUser.push(subscriber.userTo);
+            });
+
+            // 찾은 사람들의 영상을 가지고 온다.
+            Video
+                .find({'writer': {$in: subscribedUser}})
+                .populate('writer')
+                .exec((err, videos) => {
+                    if (err) {return res.status(400).send(err);}
+                    res.status(200).json({success: true, videos});
+                });
         });
 });
 

@@ -1,10 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {Box, Button, Form, FormField, grommet, Grommet, Heading, MaskedInput} from 'grommet';
-import {deepMerge} from "grommet/utils";
 import moment from 'moment';
 
-import {signUpUser} from '../../../_actions/user_actions';
+import {Box, Button, Form, FormField, grommet, Grommet, Heading, MaskedInput, Text} from 'grommet';
+import {deepMerge} from "grommet/utils";
+
+import {signUpUser, checkEmail} from '../../../_actions/user_actions';
+import axios from "axios";
+import {USER_SERVER} from "../../config";
+
+const customFormFieldTheme = {
+    formField: {
+        label: {
+            size: 'small',
+            weight: 500,
+            color: 'dark-3',
+            margin: {top: 'medium', bottom: 'none'}
+        },
+    },
+};
 
 function SignUpPage(props) {
 
@@ -17,20 +31,9 @@ function SignUpPage(props) {
         comfirm: '',
     };
 
-    const [value, setValue] = React.useState(defaultValue);
+    const [value, setValue] = useState(defaultValue);
 
     let pass = value.password;
-
-    const customFormFieldTheme = {
-        formField: {
-            label: {
-                size: 'small',
-                weight: 500,
-                color: 'dark-3',
-                margin: {top: 'medium', bottom: 'none'}
-            },
-        },
-    };
 
     return (
         <Grommet theme={deepMerge(grommet, customFormFieldTheme)}>
@@ -70,12 +73,22 @@ function SignUpPage(props) {
                             name="name"
                             required
                             validate={name => {
-                                if (name && name.length <= 1) {return '이름은 2글자 이상이어야 합니다.'}
+                                if (name && name.length <= 1) return {message: '이름은 2글자 이상이어야 합니다.', status: 'error'}
                             }}
                         >
                         </FormField>
 
-                        <FormField label="이메일" name="email" required>
+                        <FormField
+                            label="이메일"
+                            name="email"
+                            required
+                            // validate={() => {
+                            //     const result = axios
+                            //         .get(`${USER_SERVER}/checkEmail`)
+                            //         .then(response => response.data);
+                            //     console.log(result);
+                            // }}
+                        >
                             <MaskedInput
                                 name="email"
                                 mask={[
@@ -95,9 +108,8 @@ function SignUpPage(props) {
                             required
                             validate={password => {
                                 if (password && password.length <= 7) {
-                                    return {message: '비밀번호는 8자 이상이어야 합니다.', status: 'info'}
+                                    return {message: '비밀번호는 8자 이상이어야 합니다.', status: 'error'}
                                 }
-                                return undefined;
                             }}
                         >
                         </FormField>
@@ -109,7 +121,7 @@ function SignUpPage(props) {
                             required
                             validate={value => {
                                 if (value !== pass) {
-                                    return {message: '비밀번호가 일치하지 않습니다.', status: 'info'}
+                                    return {message: '비밀번호가 일치하지 않습니다.', status: 'error'}
                                 }
                                 return undefined;
                             }}

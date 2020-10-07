@@ -66,7 +66,7 @@ function VideoDetailPage(props) {
                                 <Box direction="row" justify="center" gap="medium">
                                     <Button icon={<Like />} label="0" plain />
                                     <Button icon={<Dislike />} label="0" plain />
-                                    <Subscribe userTo={video.writer.userTo} userFrom={localStorage.getItem('userId')} />
+                                    <Subscribe userTo={video.writer._id} userFrom={localStorage.getItem('userId')} />
                                 </Box>
                             </Box>
                             <Box pad="small" direction="row" gap="medium">

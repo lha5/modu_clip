@@ -1,10 +1,10 @@
 import React from 'react';
-import {Box} from 'grommet';
+import {Box, Button} from 'grommet';
 
 function LeftMenu(props) {
     return (
         <Box justify="center">
-            왼쪽 메뉴
+            <Button size="small" label="구독" href="/subscription" />
         </Box>
     );
 }

@@ -21,6 +21,24 @@ router.get('/auth', auth, (req, res) => {
     });
 });
 
+router.get('/checkEmail', (req, res) => {
+    User.find({email: req.body.email})
+        .exec((err, emails) => {
+            if (err) {return res.status(400).send(err);}
+
+            let usingEmail = [];
+
+            emails.map((email) => {
+                usingEmail.push(emails.email);
+            });
+
+            return res.status(200).json({
+                success: true,
+                usingEmail
+            });
+        });
+});
+
 router.post('/signup', (req, res) => {
     const user = new User(req.body);
 
