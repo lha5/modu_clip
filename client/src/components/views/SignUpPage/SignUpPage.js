@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import moment from 'moment';
 
-import {Box, Button, Form, FormField, grommet, Grommet, Heading, MaskedInput, Text} from 'grommet';
+import {Box, Button, Form, FormField, grommet, Grommet, Heading, MaskedInput} from 'grommet';
 import {deepMerge} from "grommet/utils";
 
-import {signUpUser, checkEmail} from '../../../_actions/user_actions';
+import {signUpUser} from '../../../_actions/user_actions';
 import axios from "axios";
 import {USER_SERVER} from "../../config";
 
@@ -24,16 +24,26 @@ function SignUpPage(props) {
 
     const dispatch = useDispatch();
 
-    const defaultValue = {
-        name: '',
-        email: '',
-        password: '',
-        comfirm: '',
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirm, setConfirm] = useState('');
+    const [isDup, setIsDup] = useState(false);
+
+    const onEmailCheck = async (email) => {
+        let result = false;
+
+        await axios
+            .post(`${USER_SERVER}/checkEmail`, {email: email})
+            .then(response => {
+                if (response.data.isExist) {
+                    result = true;
+                } else {
+                    result = false;
+                }
+            });
+        setIsDup(result);
     };
-
-    const [value, setValue] = useState(defaultValue);
-
-    let pass = value.password;
 
     return (
         <Grommet theme={deepMerge(grommet, customFormFieldTheme)}>
@@ -44,16 +54,12 @@ function SignUpPage(props) {
                     </Box>
                     <Form
                         validate="blur"
-                        value={value}
-                        onChange={nextValue => {
-                            setValue(nextValue);
-                        }}
                         onSubmit={({value, touched}) => {
                             setTimeout(() => {
                                 let dataToSubmit = {
-                                    name: value.name,
-                                    email: value.email,
-                                    password: value.password,
+                                    name: name,
+                                    email: email,
+                                    password: password,
                                     image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
                                 };
 
@@ -72,6 +78,9 @@ function SignUpPage(props) {
                             label="이름"
                             name="name"
                             required
+                            onChange={event => {
+                                setName(event.currentTarget.value);
+                            }}
                             validate={name => {
                                 if (name && name.length <= 1) return {message: '이름은 2글자 이상이어야 합니다.', status: 'error'}
                             }}
@@ -80,14 +89,18 @@ function SignUpPage(props) {
 
                         <FormField
                             label="이메일"
+                            type="email"
                             name="email"
                             required
-                            // validate={() => {
-                            //     const result = axios
-                            //         .get(`${USER_SERVER}/checkEmail`)
-                            //         .then(response => response.data);
-                            //     console.log(result);
-                            // }}
+                            onChange={event => {
+                                setEmail(event.currentTarget.value);
+                            }}
+                            validate={(email) => {
+                                onEmailCheck(email);
+                            }}
+                            error={(
+                                isDup ? '이미 사용중인 이메일 입니다.' : undefined
+                            )}
                         >
                             <MaskedInput
                                 name="email"
@@ -106,6 +119,9 @@ function SignUpPage(props) {
                             name="password"
                             type="password"
                             required
+                            onChange={event => {
+                                setPassword(event.currentTarget.value);
+                            }}
                             validate={password => {
                                 if (password && password.length <= 7) {
                                     return {message: '비밀번호는 8자 이상이어야 합니다.', status: 'error'}
@@ -119,8 +135,11 @@ function SignUpPage(props) {
                             name="confirm"
                             type="password"
                             required
+                            onChange={event => {
+                                setConfirm(event.currentTarget.value);
+                            }}
                             validate={value => {
-                                if (value !== pass) {
+                                if (value !== password) {
                                     return {message: '비밀번호가 일치하지 않습니다.', status: 'error'}
                                 }
                                 return undefined;

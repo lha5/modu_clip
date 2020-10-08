@@ -21,21 +21,16 @@ router.get('/auth', auth, (req, res) => {
     });
 });
 
-router.get('/checkEmail', (req, res) => {
-    User.find({email: req.body.email})
-        .exec((err, emails) => {
+router.post('/checkEmail', (req, res) => {
+    User.find({'email': req.body.email})
+        .exec((err, usingEmail) => {
             if (err) {return res.status(400).send(err);}
 
-            let usingEmail = [];
-
-            emails.map((email) => {
-                usingEmail.push(emails.email);
-            });
-
-            return res.status(200).json({
-                success: true,
-                usingEmail
-            });
+            if (usingEmail.length > 0) {
+                res.status(200).json({isExist: true});
+            } else {
+                res.status(200).json({isExist: false});
+            }
         });
 });
 
@@ -52,7 +47,7 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-    User.findOne({email: req.body.email}, (err, user) => {
+    User.findOne({'email': req.body.email}, (err, user) => {
         if (!user) {
             return res.json({
                 loginSuccess: false,
@@ -84,7 +79,7 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/logout', auth, (req, res) => {
-    User.findOneAndUpdate({_id: req.user._id}, {token: "", tokenExp: 0}, (err, doc) => {
+    User.findOneAndUpdate({'_id': req.user._id}, {token: "", tokenExp: 0}, (err, doc) => {
         if (err) {return res.json({success: false, err});}
 
         return res.clearCookie('w_auth').status(200).send({
