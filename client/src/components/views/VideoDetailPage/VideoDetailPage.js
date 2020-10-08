@@ -2,8 +2,7 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import moment from 'moment';
 
-import {Avatar, Box, Button, Grommet, Video} from 'grommet';
-import {Like, Dislike} from 'grommet-icons';
+import {Avatar, Box, Grommet, Video} from 'grommet';
 
 import {Responsive, customBreakpoints} from '../../responsiveConfig/ResponsiveGridConfig';
 import {VIDEO_SERVER} from '../../config';
@@ -12,6 +11,7 @@ import Subscribe from './Section/Subscribe';
 import Comment from './Section/Comment';
 
 import '../../css/videoDetailPage.css';
+import LikeDislikes from './Section/LikeDislikes';
 
 const columns = {
     small: ['auto'],
@@ -83,8 +83,7 @@ function VideoDetailPage(props) {
                                     </span>
                                 </Box>
                                 <Box direction="row" justify="center" gap="medium">
-                                    <Button icon={<Like />} label="0" plain />
-                                    <Button icon={<Dislike />} label="0" plain />
+                                    <LikeDislikes video={video} userId={localStorage.getItem('userId')} />
                                     {subscribeButton}
                                 </Box>
                             </Box>

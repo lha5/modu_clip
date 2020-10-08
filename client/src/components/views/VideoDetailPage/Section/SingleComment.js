@@ -3,6 +3,7 @@ import {useSelector} from 'react-redux';
 import axios from "axios";
 
 import {Button, Comment, Form} from 'semantic-ui-react';
+import LikeDislikes from "./LikeDislikes";
 
 function SingleComment(props) {
 
@@ -59,6 +60,9 @@ function SingleComment(props) {
                         <Comment.Actions>
                             <Comment.Action>
                                 <span onClick={onClickReplyOpen} key="comment-basic-reply-to">대댓글</span>
+                            </Comment.Action>
+                            <Comment.Action>
+                                <LikeDislikes userId={localStorage.getItem('userId')} commentId={props.comment._id} />
                             </Comment.Action>
                         </Comment.Actions>
                         {
