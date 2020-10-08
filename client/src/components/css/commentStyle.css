@@ -1,0 +1,34 @@
+.commentContainer {
+    margin: 5% 0;
+    padding: 5% 3%;
+}
+
+#commentHeader {
+    font-size: 1.4rem;
+}
+
+.commentArea {
+    padding: 10px;
+}
+
+.eachComment {
+    /*border: 1px solid blue;*/
+    padding: 15px;
+    margin-top: 2%;
+}
+
+#reply_depth {
+    /*border: 1px solid chartreuse;*/
+    margin-left: 7%;
+    margin-bottom: 7%;
+}
+
+#moreComments {
+    /*border: 1px solid magenta;*/
+    margin-left: 9%;
+    font-size: 1rem;
+}
+
+#moreComments:hover {
+    cursor: pointer;
+}

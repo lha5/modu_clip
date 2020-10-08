@@ -9,6 +9,7 @@ import {Responsive, customBreakpoints} from '../../responsiveConfig/ResponsiveGr
 import {VIDEO_SERVER} from '../../config';
 import SideVideo from "./Section/SideVideo";
 import Subscribe from './Section/Subscribe';
+import Comment from './Section/Comment';
 
 import '../../css/videoDetailPage.css';
 
@@ -32,6 +33,7 @@ function VideoDetailPage(props) {
     const videoVariable = {videoId: videoId};
 
     const [video, setVideo] = useState([]);
+    const [comments, setComments] = useState([]);
 
     useEffect(() => {
         axios.post(`${VIDEO_SERVER}/getVideo`, videoVariable)
@@ -43,9 +45,26 @@ function VideoDetailPage(props) {
                     alert('영상 정보를 가져오지 못했습니다.');
                 }
             });
+
+        axios.post('/api/comment/getComments', {videoId: videoId})
+            .then(response => {
+                if (response.data.success) {
+                    setComments(response.data.comments);
+                }
+                else {
+                    alert('댓글 정보를 가져오지 못했습니다.');
+                }
+            })
     }, []);
 
+    const refreshFunction = (newComment) => {
+        setComments(comments.concat(newComment));
+    };
+
     if (video.writer) {
+        const subscribeButton = video.writer._id !== localStorage.getItem('userId')
+            && <Subscribe userTo={video.writer._id} userFrom={localStorage.getItem('userId')} />;
+
         return (
             <Grommet theme={customBreakpoints}>
                 <Box pad={{horizontal: 'large'}} align="center">
@@ -66,7 +85,7 @@ function VideoDetailPage(props) {
                                 <Box direction="row" justify="center" gap="medium">
                                     <Button icon={<Like />} label="0" plain />
                                     <Button icon={<Dislike />} label="0" plain />
-                                    <Subscribe userTo={video.writer._id} userFrom={localStorage.getItem('userId')} />
+                                    {subscribeButton}
                                 </Box>
                             </Box>
                             <Box pad="small" direction="row" gap="medium">
@@ -75,7 +94,7 @@ function VideoDetailPage(props) {
                             </Box>
                             <Box pad={{left: 'large'}}>{video.description}</Box>
                             <Box>
-                                코멘트
+                                <Comment refreshFunction={refreshFunction} postId={videoId} commentList={comments} />
                             </Box>
                         </Box>
                         <Box margin={{left: 'small'}}>
