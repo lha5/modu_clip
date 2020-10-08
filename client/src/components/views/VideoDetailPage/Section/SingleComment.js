@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
 import axios from "axios";
+import moment from "moment";
 
 import {Button, Comment, Form} from 'semantic-ui-react';
 import LikeDislikes from "./LikeDislikes";
@@ -54,15 +55,21 @@ function SingleComment(props) {
                     <Comment.Content>
                         <Comment.Author>{propsForComment.writer.name}</Comment.Author>
                         <Comment.Metadata>
-                            <div>{propsForComment.createdAt}</div>
+                            <div>{moment(propsForComment.createdAt).format('YYYY[년] MM[월] DD[일]')}</div>
                         </Comment.Metadata>
                         <Comment.Text as='p'>{propsForComment.content}</Comment.Text>
                         <Comment.Actions>
                             <Comment.Action>
-                                <span onClick={onClickReplyOpen} key="comment-basic-reply-to">대댓글</span>
+                                {
+                                    user.userData.isAuth &&
+                                        <span onClick={onClickReplyOpen} key="comment-basic-reply-to">대댓글</span>
+                                }
                             </Comment.Action>
                             <Comment.Action>
-                                <LikeDislikes userId={localStorage.getItem('userId')} commentId={props.comment._id} />
+                                {
+                                    user.userData.isAuth &&
+                                        <LikeDislikes userId={localStorage.getItem('userId')} commentId={props.comment._id} />
+                                }
                             </Comment.Action>
                         </Comment.Actions>
                         {

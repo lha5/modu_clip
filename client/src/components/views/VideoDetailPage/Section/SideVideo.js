@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Box} from 'grommet';
 import axios from "axios";
-import {VIDEO_SERVER} from "../../../config";
 import moment from "moment";
+
+import {Box} from 'grommet';
+
+import {VIDEO_SERVER} from "../../../config";
 
 function SideVideo(props) {
     const [sideVideos, setSideVideos] = useState([]);
@@ -25,26 +27,26 @@ function SideVideo(props) {
 
         return (
             <Box direction="row" key={index} gap="xsmall">
-                    <Box justify="center" margin="xsmall">
-                        <a href={`/video/${video._id}`}>
-                            <img id="sideThumbnail" src={`http://localhost:5000/${video.thumbnail}`} alt={video.title} />
-                        </a>
-                    </Box>
-                    <Box id="sideVideoInfo" pad="small">
-                        <a href={`/video/${video._id}`}>
-                            <span id="video_ttl">{video.title}</span><br />
-                            <span>{video.writer.name}</span><br />
-                            <span>조회수 {video.views} · {moment(video.createdAt).startOf('hour').fromNow()}</span><br />
-                            <span>{minutes} : {seconds}</span><br />
-                        </a>
-                    </Box>
+                <Box justify="center" margin="xsmall">
+                    <a href={`/video/${video._id}`}>
+                        <img id="sideThumbnail" src={`http://localhost:5000/${video.thumbnail}`} alt={video.title} />
+                    </a>
+                </Box>
+                <Box responsive id="sideVideoInfo" pad="small">
+                    <a href={`/video/${video._id}`}>
+                        <span id="video_ttl">{video.title}</span><br />
+                        <span>{video.writer.name}</span><br />
+                        <span>조회수 {video.views} · {moment(video.createdAt).startOf('hour').fromNow()}</span><br />
+                        <span>{minutes} : {seconds}</span><br />
+                    </a>
+                </Box>
             </Box>
         );
     });
 
     return (
         <React.Fragment>
-            {sideVideoItem }
+            {sideVideoItem}
         </React.Fragment>
     );
 }

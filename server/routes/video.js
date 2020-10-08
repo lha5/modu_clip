@@ -111,7 +111,16 @@ router.post('/getVideo', (req, res) => {
         .populate('writer')
         .exec((err, video) => {
             if (err) {return res.status(400).send(err);}
-            return res.status(200).json({success: true, video});
+
+            Video.findOneAndUpdate({'_id' : video._id}, {'views' : video.views + 1})
+                .populate('writer')
+                .exec((err, video) => {
+                    if (err) {
+                        return res.json({success: false, err});
+                    }
+
+                    return res.status(200).send({success: true, video});
+                });
         });
 });
 

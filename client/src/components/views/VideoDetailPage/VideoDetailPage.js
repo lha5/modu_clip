@@ -63,6 +63,7 @@ function VideoDetailPage(props) {
 
     if (video.writer) {
         const subscribeButton = video.writer._id !== localStorage.getItem('userId')
+            && localStorage.getItem('userId')
             && <Subscribe userTo={video.writer._id} userFrom={localStorage.getItem('userId')} />;
 
         return (
@@ -83,7 +84,7 @@ function VideoDetailPage(props) {
                                     </span>
                                 </Box>
                                 <Box direction="row" justify="center" gap="medium">
-                                    <LikeDislikes video={video} userId={localStorage.getItem('userId')} />
+                                    {localStorage.getItem('userId') && <LikeDislikes video={video} userId={localStorage.getItem('userId')} />}
                                     {subscribeButton}
                                 </Box>
                             </Box>

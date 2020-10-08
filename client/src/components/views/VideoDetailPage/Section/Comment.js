@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import SingleComment from './SingleComment';
 import ReplyComment from './ReplyComment';
 
-import {Box, Button, Form, FormField, Grommet, TextArea} from 'grommet';
+import {Box, Button, Form, Grommet, TextArea} from 'grommet';
 import {Divider} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css'
 
@@ -80,23 +80,27 @@ function Comment(props) {
                 </div>
 
                 <div className="commentArea">
-                    <Grommet theme={deepMerge(customTheme)}>
-                        <Form onSubmit={onSubmit}>
-                            <Box direction="row" gap="xsmall">
-                                <Box width="80%">
-                                    <TextArea
-                                        name="comment"
-                                        onChange={handleClick}
-                                        value={commentValue}
-                                        fill
-                                    />
-                                </Box>
-                                <Box width="20%">
-                                    <Button type="submit" fill label="작성하기" primary />
-                                </Box>
-                            </Box>
-                        </Form>
-                    </Grommet>
+                    {
+                        user.isAuth ?
+                            <Grommet theme={deepMerge(customTheme)}>
+                                <Form onSubmit={onSubmit}>
+                                    <Box direction="row" gap="xsmall">
+                                        <Box width="80%">
+                                            <TextArea
+                                                name="comment"
+                                                onChange={handleClick}
+                                                value={commentValue}
+                                                fill
+                                            />
+                                        </Box>
+                                        <Box width="20%">
+                                            <Button type="submit" fill label="작성하기" primary />
+                                        </Box>
+                                    </Box>
+                                </Form>
+                            </Grommet>
+                        : <Box align="center">로그인 후 이용 바랍니다.</Box>
+                    }
                 </div>
             </Box>
         </div>

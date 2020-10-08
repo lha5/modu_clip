@@ -27,7 +27,7 @@ function Footer(props) {
     );
 
     return (
-        <Box background="brand" pad={{horizontal: '15%'}} direction="row" justify="between" margin="none">
+        <Box background="light-2" pad={{horizontal: '15%'}} direction="row" justify="between" margin="none">
             <Box align="center" direction="row" pad={{vertical: 'medium'}}>
                 <Box direction="column">
                     <Box direction="row">

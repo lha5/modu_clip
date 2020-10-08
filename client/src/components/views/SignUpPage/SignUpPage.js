@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import {Box, Button, Form, FormField, grommet, Grommet, Heading, MaskedInput} from 'grommet';
 import {deepMerge} from "grommet/utils";
+import validator from 'validator/es';
 
 import {signUpUser} from '../../../_actions/user_actions';
 import axios from "axios";
@@ -29,6 +30,10 @@ function SignUpPage(props) {
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
     const [isDup, setIsDup] = useState(false);
+
+    const validEmail = () => {
+        return validator.isEmail(email);
+    };
 
     const onEmailCheck = async (email) => {
         let result = false;
@@ -98,9 +103,7 @@ function SignUpPage(props) {
                             validate={(email) => {
                                 onEmailCheck(email);
                             }}
-                            error={(
-                                isDup ? '이미 사용중인 이메일 입니다.' : undefined
-                            )}
+                            error={isDup ? '이미 사용중인 이메일 입니다.' : undefined}
                         >
                             <MaskedInput
                                 name="email"
